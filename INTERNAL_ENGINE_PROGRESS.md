@@ -1,21 +1,26 @@
-# موتور داخلی ADB — پیشرفت (۲۰۲۶-۱۰-۲۰)
+# موتور داخلی — پیشرفت v5.1 (۲۰۲۶-۱۰-۲۰)
 
-## انجام‌شده
-1. ساخت `jemrec-capture.jar` (دایمون shell از fork JemRec / scrcpy audio) — Apache-2.0 با ذکر منبع
-2. قرار دادن jar داخل assets برنامه
-3. کلاس‌های `internal/AdbIdentity`, `InternalEngine`, UI جفت‌سازی در تنظیمات
-4. نسخه 5.0-internal با همان امضای ۴.۲
+## انجام‌شده در این مرحله
+1. رفع مشکل d8 با build-tools 35 → libadb-android dex شد
+2. BouncyCastle برای گواهی ADB (AdbIdentity کامل)
+3. InternalAdbManager با AbsAdbConnectionManager
+4. pair / connect / deployDaemon واقعی
+5. UI راه‌اندازی یک‌مرحله‌ای (پورت جفت‌سازی + کد + پورت اتصال)
+6. InternalCaptureClient برای دریافت استریم از دایمون
+7. CallRecorderCore: اولویت موتور داخلی قبل از Shizuku
+8. jemrec-capture.jar در assets
 
-## گیر فنی این نشست
-- کتابخانه `libadb-android` با d8 فعلی (build-tools 34) هنگام dex خطا می‌دهد (NPE روی PairingConnectionCtx)
-- بدون libadb، جفت‌سازی واقعی Wireless Debugging و اجرای دایمون از shell ممکن نیست
+## امضا
+همان SHA1 نسخه ۴.۲: 15:1F:4F:26:...
 
-## مرحله بعد (وقتی ادامه دادی)
-1. بیلد Gradle یا d8 جدیدتر برای libadb + BouncyCastle
-2. pair/connect روی 127.0.0.1
-3. deploy دایمون با `app_process`
-4. اتصال CallRecorderCore به پورت دایمون برای ضبط دوطرفه
+## تست روی گوشی
+1. Developer options + USB debugging + Wireless debugging
+2. Pair device with pairing code → پورت و کد
+3. همان صفحه IP & port → پورت اتصال
+4. در آوای طنین: راه‌اندازی موتور داخلی
+5. تماس آزمایشی
 
-## استفاده فعلی
-- مسیر پایدار ضبط دوطرفه همچنان: Shizuku + نسخه ۴.۸
-- ۵.۰-internal زیرساخت موتور داخلی را دارد ولی جفت‌سازی ADB کامل نیست
+## نکات
+- بعد از ریستارت گوشی ممکن است Wireless debugging و اتصال مجدد لازم شود
+- اگر دایمون روی OEM خاص صدا ندهد، لاگ `/data/local/tmp/avayetanin-capture.log`
+- مسیر Shizuku (۴.۸) همچنان به‌عنوان پشتیبان فعال است
